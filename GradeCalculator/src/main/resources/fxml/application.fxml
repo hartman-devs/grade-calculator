@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="mainAnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="425.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gradecalculator.Controller">
+   <children>
+      <TabPane layoutX="-1.0" layoutY="-1.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="32.0">
+        <tabs>
+          <Tab text="Welcome">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label alignment="TOP_LEFT" layoutX="14.0" layoutY="14.0" prefHeight="40.0" prefWidth="575.0" text="Welcome to the grade calculator! This application is a simple way to determine your grade in a given class by following the given instructions:" wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="14.0" />
+                        <Label alignment="TOP_LEFT" layoutX="14.0" layoutY="87.0" prefHeight="40.0" prefWidth="575.0" text="2. Enter a comma-delimited list of weights associated with your grades under &quot;Weights&quot;, or 0 if you have no grades of that type." wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="74.0" />
+                        <Label alignment="TOP_LEFT" layoutX="14.0" layoutY="127.0" prefHeight="90.0" prefWidth="573.0" text="3. Enter a comma-delimited list of your grades under &quot;Grades&quot;.&#10;    Make sure the list under &quot;Weights&quot; and the list under &quot;Grades&quot; line up!&#10;    If you have more than one weight for a grade type, average all groups of grades.&#10;        (Average all grades associated with a single weight value)&#10;    If you have a single weight for a grade type, we can average the grades for you." wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="114.0" />
+                        <Label alignment="TOP_LEFT" layoutX="14.0" layoutY="219.0" prefHeight="40.0" prefWidth="575.0" text="4. Click the &quot;Calculate Grades&quot; button under &quot;Results&quot; to see your grades!" wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="204.0" />
+                        <Label alignment="TOP_LEFT" layoutX="14.0" layoutY="54.0" prefHeight="20.0" prefWidth="575.0" text="1. Enter the total weight value possible for the course below (defaults to 100 for 100%)." AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="54.0" />
+                        <Label layoutX="160.0" layoutY="295.0" text="Weight Possible:" />
+                        <TextField fx:id="weightPossible" layoutX="270.0" layoutY="290.0" text="100" />
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Weights">
+            <content>
+              <AnchorPane fx:id="weightAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="105.0" text="Exam Weight(s)" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+                        <TextField fx:id="examWeights" layoutX="130.0" layoutY="9.0" prefHeight="27.0" prefWidth="450.0" promptText="Enter values as a fractional/decimal value (0.25 instead of 25%)." AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="9.0" />
+                        <Label layoutX="14.0" layoutY="69.0" prefHeight="17.0" prefWidth="105.0" text="Homework Weight(s)" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="69.0" />
+                        <TextField fx:id="homeworkWeights" layoutX="130.0" layoutY="64.0" prefHeight="27.0" prefWidth="450.0" promptText="Enter values as a fractional/decimal value (0.25 instead of 25%)." AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="64.0" />
+                        <Label layoutX="14.0" layoutY="124.0" prefHeight="17.0" prefWidth="105.0" text="Lab Weight(s)" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="124.0" />
+                        <TextField fx:id="labWeights" layoutX="130.0" layoutY="119.0" prefHeight="27.0" prefWidth="450.0" promptText="Enter values as a fractional/decimal value (0.25 instead of 25%)." AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="119.0" />
+                        <Label layoutX="14.0" layoutY="179.0" prefHeight="17.0" prefWidth="105.0" text="Quiz Weight(s)" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="179.0" />
+                        <TextField fx:id="quizWeights" layoutX="130.0" layoutY="174.0" prefHeight="27.0" prefWidth="450.0" promptText="Enter values as a fractional/decimal value (0.25 instead of 25%)." AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="174.0" />
+                        <Label layoutX="14.0" layoutY="234.0" prefHeight="17.0" prefWidth="105.0" text="In-Class Work Weight(s)" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="234.0" />
+                        <TextField fx:id="inclassWorkWeights" layoutX="130.0" layoutY="229.0" prefHeight="27.0" prefWidth="450.0" promptText="Enter values as a fractional/decimal value (0.25 instead of 25%)." AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="229.0" />
+                        <Label layoutX="14.0" layoutY="289.0" prefHeight="17.0" prefWidth="105.0" text="Miscellaneous Weight(s)" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="289.0" />
+                        <TextField fx:id="miscWorkWeights" layoutX="130.0" layoutY="284.0" prefHeight="27.0" prefWidth="450.0" promptText="Enter values as a fractional/decimal value (0.25 instead of 25%)." AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="284.0" />
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Grades">
+               <content>
+                  <AnchorPane fx:id="gradeAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="105.0" text="Exam Grade(s)" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+                        <TextField fx:id="examGrades" layoutX="130.0" layoutY="9.0" prefHeight="27.0" prefWidth="450.0" promptText="Enter values as points out of one hundred (e.g. 50, 20, 100)." AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="9.0" />
+                        <Label layoutX="14.0" layoutY="69.0" prefHeight="17.0" prefWidth="105.0" text="Homework Grade(s)" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="69.0" />
+                        <TextField fx:id="homeworkGrades" layoutX="130.0" layoutY="64.0" prefHeight="27.0" prefWidth="450.0" promptText="Enter values as points out of one hundred (e.g. 50, 20, 100)." AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="64.0" />
+                        <Label layoutX="14.0" layoutY="124.0" prefHeight="17.0" prefWidth="105.0" text="Lab Grade(s)" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="124.0" />
+                        <TextField fx:id="labGrades" layoutX="130.0" layoutY="119.0" prefHeight="27.0" prefWidth="450.0" promptText="Enter values as points out of one hundred (e.g. 50, 20, 100)." AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="119.0" />
+                        <Label layoutX="14.0" layoutY="179.0" prefHeight="17.0" prefWidth="105.0" text="Quiz Grade(s)" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="179.0" />
+                        <TextField fx:id="quizGrades" layoutX="130.0" layoutY="174.0" prefHeight="27.0" prefWidth="450.0" promptText="Enter values as points out of one hundred (e.g. 50, 20, 100)." AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="174.0" />
+                        <Label layoutX="14.0" layoutY="234.0" prefHeight="17.0" prefWidth="105.0" text="In-Class Work Grade(s)" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="234.0" />
+                        <TextField fx:id="inclassWorkGrades" layoutX="130.0" layoutY="229.0" prefHeight="27.0" prefWidth="450.0" promptText="Enter values as points out of one hundred (e.g. 50, 20, 100)." AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="229.0" />
+                        <Label layoutX="14.0" layoutY="289.0" prefHeight="17.0" prefWidth="105.0" text="Miscellaneous Grade(s)" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="289.0" />
+                        <TextField fx:id="miscWorkGrades" layoutX="130.0" layoutY="284.0" prefHeight="27.0" prefWidth="450.0" promptText="Enter values as points out of one hundred (e.g. 50, 20, 100)." AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="284.0" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Results">
+               <content>
+                  <AnchorPane fx:id="resultsAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="105.0" text="Final Grade" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+                        <TextField fx:id="finalGradeResult" disable="true" editable="false" layoutX="130.0" layoutY="9.0" prefHeight="27.0" prefWidth="450.0" AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="9.0" />
+                        <Label layoutX="14.0" layoutY="59.0" prefHeight="17.0" prefWidth="105.0" text="Exam Grade" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="59.0" />
+                        <TextField fx:id="examGradeResult" disable="true" editable="false" layoutX="130.0" layoutY="54.0" prefHeight="27.0" prefWidth="450.0" AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="54.0" />
+                        <Label layoutX="14.0" layoutY="104.0" prefHeight="17.0" prefWidth="105.0" text="Homework Grade" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="104.0" />
+                        <TextField fx:id="homeworkGradeResult" disable="true" editable="false" layoutX="130.0" layoutY="99.0" prefHeight="27.0" prefWidth="450.0" AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="99.0" />
+                        <Label layoutX="14.0" layoutY="149.0" prefHeight="17.0" prefWidth="105.0" text="Lab Grade" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="149.0" />
+                        <TextField fx:id="labGradeResult" disable="true" editable="false" layoutX="130.0" layoutY="144.0" prefHeight="27.0" prefWidth="450.0" AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="144.0" />
+                        <Label layoutX="14.0" layoutY="194.0" prefHeight="17.0" prefWidth="105.0" text="Quiz Grade" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="194.0" />
+                        <TextField fx:id="quizGradeResult" disable="true" editable="false" layoutX="130.0" layoutY="189.0" prefHeight="27.0" prefWidth="450.0" AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="189.0" />
+                        <Label layoutX="14.0" layoutY="239.0" prefHeight="17.0" prefWidth="105.0" text="In-Class Work Grade" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="239.0" />
+                        <TextField fx:id="inclassWorkResult" disable="true" editable="false" layoutX="130.0" layoutY="234.0" prefHeight="27.0" prefWidth="450.0" AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="234.0" />
+                        <Label layoutX="14.0" layoutY="284.0" prefHeight="17.0" prefWidth="105.0" text="Miscellaneous Grade" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="284.0" />
+                        <TextField fx:id="miscGradeResult" disable="true" editable="false" layoutX="130.0" layoutY="279.0" prefHeight="27.0" prefWidth="450.0" AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="279.0" />
+                        <Button fx:id="calculateGradeButton" layoutX="239.0" layoutY="319.0" mnemonicParsing="false" onAction="#handleCGButtonClickAction" text="Calculate Grades" AnchorPane.bottomAnchor="14.0" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+      <MenuBar prefHeight="32.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+                  <MenuItem mnemonicParsing="false" onAction="#handleNewClickAction" text="New" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleOpenClickAction" text="Open" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleSaveClickAction" text="Save" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleExitClickAction" text="Exit" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#handleAboutClickAction" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </children>
+</AnchorPane>
