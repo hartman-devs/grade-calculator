@@ -36,6 +36,7 @@ import javafx.stage.FileChooser;
 
 import java.io.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * FXML Controller class managing the application's control.
@@ -68,6 +69,35 @@ public class Controller {
     @FXML private AnchorPane resultsAnchorPane;
     @FXML private Button calculateGradeButton;
           private HostServices hostServices;
+    @FXML private RadioButton pointBased;
+    @FXML private RadioButton weightBased;
+    @FXML private TextField pointsPossible;
+    @FXML private Tab pointsTab;
+    @FXML private Tab weightTab;
+    @FXML private Tab gradeTab;
+    @FXML private Label weightTag;
+    @FXML private Label pointTag;
+    @FXML private TextField pointExam;
+    @FXML private TextField pointHomework;
+    @FXML private TextField pointLab;
+    @FXML private TextField pointQuiz;
+    @FXML private TextField pointInClassWork;
+    @FXML private TextField pointExtraCredit;
+    @FXML private TextField pointExamValue;
+    @FXML private TextField pointHomeworkValue;
+    @FXML private TextField pointLabValue;
+    @FXML private TextField pointQuizValue;
+    @FXML private TextField pointInClassWorkValue;
+    @FXML private Label weightLabel;
+    @FXML private Label weightLabel1;
+    @FXML private Label weightLabel2;
+    @FXML private Label weightLabel3;
+    @FXML private Label pointLabel;
+    @FXML private Label pointLabel1;
+    @FXML private Label pointLabel2;
+    @FXML private Label pointLabel3;
+    @FXML private Label pointLabel4;
+
     //</editor-fold>
 
     /**
@@ -129,8 +159,73 @@ public class Controller {
                 }//end if
             }//end changed(ObservableValue<>, String, String):void
         });//end ChangeListener<String>()
-    }//end initialize():void
 
+        pointsPossible.setVisible(false);
+        weightPossible.setVisible(false);
+        pointTag.setVisible(false);
+        weightTag.setVisible(false);
+
+        pointsTab.setDisable(true);
+        weightTab.setDisable(true);
+        gradeTab.setDisable(true);
+
+    }//end initialize():void
+    /**
+     * FXML method handling the action occurring when the user selects the points method. This will cause several
+     * of the tabs to be grayed out and the calculation method change to points.
+     */
+    @FXML
+    void OnPointPushed(ActionEvent event) {
+        if(weightBased.isSelected()){
+            weightBased.setSelected(false);
+            weightTag.setVisible(false);
+            weightPossible.setVisible(false);
+            weightTab.setDisable(true);
+            gradeTab.setDisable(true);
+            weightLabel.setVisible(false);
+            weightLabel1.setVisible(false);
+            weightLabel2.setVisible(false);
+            weightLabel3.setVisible(false);
+        }
+        pointTag.setVisible(true);
+        pointsPossible.setVisible(true);
+        pointsTab.setDisable(false);
+
+        pointLabel.setVisible(true);
+        pointLabel1.setVisible(true);
+        pointLabel2.setVisible(true);
+        pointLabel3.setVisible(true);
+        pointLabel4.setVisible(true);
+    }
+    /**
+     * FXML method handling the action occurring when the user selects the weights method. This will cause several
+     * of the tabs to be grayed out and the calculation method change to weights.
+     */
+    @FXML
+    void OnWeightedPushed(ActionEvent event) {
+        if(pointBased.isSelected()){
+            pointBased.setSelected(false);
+            pointTag.setVisible(false);
+            pointsPossible.setVisible(false);
+            pointsTab.setDisable(true);
+
+            pointLabel.setVisible(false);
+            pointLabel1.setVisible(false);
+            pointLabel2.setVisible(false);
+            pointLabel3.setVisible(false);
+            pointLabel4.setVisible(false);
+        }
+        weightTag.setVisible(true);
+        weightPossible.setVisible(true);
+        weightTab.setDisable(false);
+        gradeTab.setDisable(false);
+
+        weightLabel.setVisible(true);
+        weightLabel1.setVisible(true);
+        weightLabel2.setVisible(true);
+        weightLabel3.setVisible(true);
+
+    }
     /**
      * FXML method handling the action occurring when the user presses the "Calculate Grade" button. This method
      * handles the event by parsing user input in each text field and calculating the final grade, as well as the
@@ -139,98 +234,167 @@ public class Controller {
     @FXML
     protected void handleCGButtonClickAction()
     {
-        String[] examWeights = this.examWeights.getText().replaceAll(" ", "").split(",");
-        String[] examGrades = this.examGrades.getText().replaceAll(" ", "").split(",");
-        String[] homeworkWeights = this.homeworkWeights.getText().replaceAll(" ", "").split(",");
-        String[] homeworkGrades = this.homeworkGrades.getText().replaceAll(" ", "").split(",");
-        String[] quizWeights = this.quizWeights.getText().replaceAll(" ", "").split(",");
-        String[] quizGrades = this.quizGrades.getText().replaceAll(" ", "").split(",");
-        String[] labWeights = this.labWeights.getText().replaceAll(" ", "").split(",");
-        String[] labGrades = this.labGrades.getText().replaceAll(" ", "").split(",");
-        String[] inclassWorkWeights = this.inclassWorkWeights.getText().replaceAll(" ", "").split(",");
-        String[] inclassWorkGrades = this.inclassWorkGrades.getText().replaceAll(" ", "").split(",");
-        String[] miscWorkWeights = this.miscWorkWeights.getText().replaceAll(" ", "").split(",");
-        String[] miscWorkGrades = this.miscWorkGrades.getText().replaceAll(" ", "").split(",");
-        BigDecimal errorValue = new BigDecimal(-1);
-        BigDecimal totalWeight = BigDecimal.ZERO;
-        BigDecimal finalGrade = BigDecimal.ZERO;
+        if (pointBased.isSelected()){
+            //set var to values in boxes for later processing
+            String[] examGrades = this.pointExam.getText().replaceAll(" ", "").split(",");
+            String[] homeworkGrades = this.pointHomework.getText().replaceAll(" ", "").split(",");
+            String[] quizGrades = this.pointQuiz.getText().replaceAll(" ", "").split(",");
+            String[] labGrades = this.pointLab.getText().replaceAll(" ", "").split(",");
+            String[] inClassWorkGrades = this.pointInClassWork.getText().replaceAll(" ", "").split(",");
+            String[] extraCreditGrades = this.pointExtraCredit.getText().replaceAll(" ", "").split(",");
+            //Add up point totals
 
-        for(Node node : weightAnchorPane.getChildren())
-        {
-            if(node instanceof TextField)
-            {
-                if(!((TextField) node).getText().matches("([\\d]*(\\.[\\d]+)?,[ ]?)*([\\d]*(\\.[\\d]+)?)"))
-                {
-                    anErrorOccurred("ERROR: Invalid input under \"Weights\" tab!");
+            //left side inputs
+            BigDecimal pointExamGrades = new BigDecimal (this.pointExamValue.getText());
+            BigDecimal pointHomeworkGrades = new BigDecimal (this.pointHomeworkValue.getText());
+            BigDecimal pointQuizGrades = new BigDecimal (this.pointQuizValue.getText());
+            BigDecimal pointLabValue = new BigDecimal (this.pointLabValue.getText());
+            BigDecimal pointInClassWorkValue = new BigDecimal (this.pointInClassWorkValue.getText());
+
+            BigDecimal totalGroupPointPossible = new BigDecimal(0);
+
+            BigDecimal totalPoints = new BigDecimal(pointsPossible.getText());
+            totalGroupPointPossible = totalGroupPointPossible.add(pointExamGrades);
+            totalGroupPointPossible = totalGroupPointPossible.add(pointHomeworkGrades);
+            totalGroupPointPossible = totalGroupPointPossible.add(pointLabValue);
+            totalGroupPointPossible = totalGroupPointPossible.add(pointQuizGrades);
+            totalGroupPointPossible = totalGroupPointPossible.add(pointInClassWorkValue);
+
+            if (totalGroupPointPossible.compareTo(totalPoints) == 0 ) {
+                //calculation of totals
+                if(calculateTotalPointsEntered(examGrades, homeworkGrades,quizGrades, labGrades, inClassWorkGrades).compareTo(totalPoints) == 1){
+                    showErrorAlert("Totals do not add up. Check them again! ");
                     return;
-                }//end if
-            }//end if
-        }//end for
+                }
+                //totals
+                BigDecimal multiplier = new BigDecimal(100);
 
-        for(Node node : gradeAnchorPane.getChildren())
-        {
-            if(node instanceof TextField)
-            {
-                if(!((TextField) node).getText().matches("([\\d]*(\\.[\\d]+)?,[ ]?)*([\\d]*(\\.[\\d]+)?)"))
-                {
-                    anErrorOccurred("ERROR: Invalid input under \"Grades\" tab!");
+                //extra credit condition
+                if(pointExtraCredit.getText() != null){
+                    finalGradeResult.setText(calculateTotalPointsEntered(examGrades, homeworkGrades,quizGrades, labGrades, inClassWorkGrades, extraCreditGrades).divide(totalPoints).multiply(multiplier).toString() + '%');
+                }
+                else{
+                    finalGradeResult.setText(calculateTotalPointsEntered(examGrades, homeworkGrades, quizGrades, labGrades, inClassWorkGrades).divide(totalPoints).multiply(multiplier).toString() + '%');
+                }
+                try {
+                    examGradeResult.setText(calculatePointsPercentage(examGrades, pointExamGrades).toString() + '%');
+                    homeworkGradeResult.setText(calculatePointsPercentage(homeworkGrades, pointHomeworkGrades).toString() + '%');
+                    labGradeResult.setText(calculatePointsPercentage(labGrades, pointLabValue).toString() + '%');
+                    quizGradeResult.setText(calculatePointsPercentage(quizGrades, pointQuizGrades).toString() + '%');
+                    inclassWorkResult.setText(calculatePointsPercentage(inClassWorkGrades, pointInClassWorkValue).toString() + '%');
+                }
+                catch (Exception e){
+                    showErrorAlert("Earned points above what is possible! Check again!");
                     return;
+                }
+            }
+            else if (totalGroupPointPossible.compareTo(totalPoints) == 1) {
+                showErrorAlert("Possible points per item is higher than what is possible!");
+                return;
+            }
+            else {
+                showErrorAlert("Possible points per item is lower than what is possible!");
+                return;
+            }
+        }
+        else if (weightBased.isSelected()){
+            String[] examWeights = this.examWeights.getText().replaceAll(" ", "").split(",");
+            String[] examGrades = this.examGrades.getText().replaceAll(" ", "").split(",");
+            String[] homeworkWeights = this.homeworkWeights.getText().replaceAll(" ", "").split(",");
+            String[] homeworkGrades = this.homeworkGrades.getText().replaceAll(" ", "").split(",");
+            String[] quizWeights = this.quizWeights.getText().replaceAll(" ", "").split(",");
+            String[] quizGrades = this.quizGrades.getText().replaceAll(" ", "").split(",");
+            String[] labWeights = this.labWeights.getText().replaceAll(" ", "").split(",");
+            String[] labGrades = this.labGrades.getText().replaceAll(" ", "").split(",");
+            String[] inclassWorkWeights = this.inclassWorkWeights.getText().replaceAll(" ", "").split(",");
+            String[] inclassWorkGrades = this.inclassWorkGrades.getText().replaceAll(" ", "").split(",");
+            String[] miscWorkWeights = this.miscWorkWeights.getText().replaceAll(" ", "").split(",");
+            String[] miscWorkGrades = this.miscWorkGrades.getText().replaceAll(" ", "").split(",");
+            BigDecimal errorValue = new BigDecimal(-1);
+            BigDecimal totalWeight = BigDecimal.ZERO;
+            BigDecimal finalGrade = BigDecimal.ZERO;
+
+            for(Node node : weightAnchorPane.getChildren())
+            {
+                if(node instanceof TextField)
+                {
+                    if(!((TextField) node).getText().matches("([\\d]*(\\[\\d]+)?,[ ]?)*([\\d]*(\\.[\\d]+)?)"))
+                    {
+                        anErrorOccurred("ERROR: Invalid input under \"Weights\" tab!");
+                        return;
+                    }//end if
                 }//end if
+            }//end for
+
+            for(Node node : gradeAnchorPane.getChildren())
+            {
+                if(node instanceof TextField)
+                {
+                    if(!((TextField) node).getText().matches("([\\d]*(\\.[\\d]+)?,[ ]?)*([\\d]*(\\.[\\d]+)?)"))
+                    {
+                        anErrorOccurred("ERROR: Invalid input under \"Grades\" tab!");
+                        return;
+                    }//end if
+                }//end if
+            }//end for
+
+            totalWeight = calculateTotalWeightEntered(examWeights, homeworkWeights, quizWeights, labWeights, inclassWorkWeights, miscWorkWeights);
+
+            if(totalWeight.compareTo((new BigDecimal(weightPossible.getText()).divide(new BigDecimal(100), 10, BigDecimal.ROUND_HALF_UP))) != 0)
+            {
+                anErrorOccurred("ERROR: Weights entered do not equal " + weightPossible.getText() + "%!");
+                return;
             }//end if
-        }//end for
 
-        totalWeight = calculateTotalWeightEntered(examWeights, homeworkWeights, quizWeights, labWeights, inclassWorkWeights, miscWorkWeights);
+            BigDecimal examGrade = calculateGrade(examWeights, examGrades, "exam");
+            if(examGrade.compareTo(errorValue) <= 0)
+            {
+                return;
+            }//end if
 
-        if(totalWeight.compareTo((new BigDecimal(weightPossible.getText()).divide(new BigDecimal(100), 10, BigDecimal.ROUND_HALF_UP))) != 0)
-        {
-            anErrorOccurred("ERROR: Weights entered do not equal " + weightPossible.getText() + "%!");
-            return;
-        }//end if
+            BigDecimal homeworkGrade = calculateGrade(homeworkWeights, homeworkGrades, "homework");
+            if(homeworkGrade.compareTo(errorValue) <= 0)
+            {
+                return;
+            }//end if
 
-        BigDecimal examGrade = calculateGrade(examWeights, examGrades, "exam");
-        if(examGrade.compareTo(errorValue) <= 0)
-        {
-            return;
-        }//end if
+            BigDecimal quizGrade = calculateGrade(quizWeights, quizGrades, "quiz");
+            if(quizGrade.compareTo(errorValue) <= 0)
+            {
+                return;
+            }//end if
 
-        BigDecimal homeworkGrade = calculateGrade(homeworkWeights, homeworkGrades, "homework");
-        if(homeworkGrade.compareTo(errorValue) <= 0)
-        {
-            return;
-        }//end if
+            BigDecimal labGrade = calculateGrade(labWeights, labGrades, "lab");
+            if(labGrade.compareTo(errorValue) <= 0)
+            {
+                return;
+            }//end if
 
-        BigDecimal quizGrade = calculateGrade(quizWeights, quizGrades, "quiz");
-        if(quizGrade.compareTo(errorValue) <= 0)
-        {
-            return;
-        }//end if
+            BigDecimal inclassWorkGrade = calculateGrade(inclassWorkWeights, inclassWorkGrades, "in-class");
+            if(inclassWorkGrade.compareTo(errorValue) <= 0)
+            {
+                return;
+            }//end if
 
-        BigDecimal labGrade = calculateGrade(labWeights, labGrades, "lab");
-        if(labGrade.compareTo(errorValue) <= 0)
-        {
-            return;
-        }//end if
+            BigDecimal miscWorkGrade = calculateGrade(miscWorkWeights, miscWorkGrades, "misc.");
+            if(miscWorkGrade.compareTo(errorValue) <= 0)
+            {
+                return;
+            }//end if
 
-        BigDecimal inclassWorkGrade = calculateGrade(inclassWorkWeights, inclassWorkGrades, "in-class");
-        if(inclassWorkGrade.compareTo(errorValue) <= 0)
-        {
-            return;
-        }//end if
+            finalGrade = examGrade.add(homeworkGrade).add(quizGrade).add(labGrade).add(inclassWorkGrade).add(miscWorkGrade);
+            this.finalGradeResult.setText(finalGrade.setScale(1, BigDecimal.ROUND_HALF_UP).toString());
+            this.miscGradeResult.setText(miscWorkGrade.setScale(1, BigDecimal.ROUND_HALF_UP).toString());
+            this.inclassWorkResult.setText(inclassWorkGrade.setScale(1, BigDecimal.ROUND_HALF_UP).toString());
+            this.labGradeResult.setText(labGrade.setScale(1, BigDecimal.ROUND_HALF_UP).toString());
+            this.quizGradeResult.setText(quizGrade.setScale(1, BigDecimal.ROUND_HALF_UP).toString());
+            this.homeworkGradeResult.setText(homeworkGrade.setScale(1, BigDecimal.ROUND_HALF_UP).toString());
+            this.examGradeResult.setText(examGrade.setScale(1, BigDecimal.ROUND_HALF_UP).toString());
+        }
 
-        BigDecimal miscWorkGrade = calculateGrade(miscWorkWeights, miscWorkGrades, "misc.");
-        if(miscWorkGrade.compareTo(errorValue) <= 0)
-        {
-            return;
-        }//end if
-
-        finalGrade = examGrade.add(homeworkGrade).add(quizGrade).add(labGrade).add(inclassWorkGrade).add(miscWorkGrade);
-        this.finalGradeResult.setText(finalGrade.setScale(1, BigDecimal.ROUND_HALF_UP).toString());
-        this.miscGradeResult.setText(miscWorkGrade.setScale(1, BigDecimal.ROUND_HALF_UP).toString());
-        this.inclassWorkResult.setText(inclassWorkGrade.setScale(1, BigDecimal.ROUND_HALF_UP).toString());
-        this.labGradeResult.setText(labGrade.setScale(1, BigDecimal.ROUND_HALF_UP).toString());
-        this.quizGradeResult.setText(quizGrade.setScale(1, BigDecimal.ROUND_HALF_UP).toString());
-        this.homeworkGradeResult.setText(homeworkGrade.setScale(1, BigDecimal.ROUND_HALF_UP).toString());
-        this.examGradeResult.setText(examGrade.setScale(1, BigDecimal.ROUND_HALF_UP).toString());
+        else{
+            System.out.print("Fail");
+        }
     }//end handleButtonClickAction():void
 
     /**
@@ -470,6 +634,61 @@ public class Controller {
 
         return totalWeight;
     }//end calculateTotalWeightEntered(String[] ... weightArrays):BigDecimal
+    /**
+     * This method calculates the total weight entered by the user and returns it to the caller.
+     *
+     * @param pointArrays Array(String[]); Variable length argument containing all point arrays for each grade type.
+     * @return BigDecimal; Total points calculated to compare against expected.
+     */
+    private BigDecimal calculateTotalPointsEntered(String[] ... pointArrays)
+    {
+        BigDecimal totalPoint = BigDecimal.ZERO;
+
+        if(pointArrays.length != 0)
+        {
+            for (String[] weightSet : pointArrays)
+            {
+                for (String weight : weightSet)
+                {
+                    if(weight != null && !weight.isEmpty())
+                    {
+                        totalPoint = totalPoint.add(new BigDecimal(weight));
+                    }//end if
+                }//end for
+            }//end for
+        }//end if
+        else
+        {
+            totalPoint = BigDecimal.ZERO;
+        }//end else
+
+        return totalPoint;
+    }//end calculateTotalWeightEntered(String[] ... weightArrays):BigDecimal
+
+    /**
+     * This method calculates the total weight entered by the user and returns it to the caller.
+     *
+     * @param grades Array(String[]); Variable length argument containing all weight arrays for each grade type.
+     * @param points BigDecimal; The total amount of points possible for that category.
+     * @return BigDecimal; Total weight calculated to compare against expected.
+     */
+    private BigDecimal calculatePointsPercentage(String[] grades, BigDecimal points) throws Exception{
+        BigDecimal totalGrade = calculateTotalPointsEntered(grades);
+        if (totalGrade.equals(0)) {
+            return totalGrade;
+        }
+        else if (totalGrade.compareTo(points) != 1){ //total grade is above what is possible
+            try {
+                return totalGrade.divide(points, 2, RoundingMode.CEILING).multiply(new BigDecimal(100));
+            }
+            catch (ArithmeticException f){}
+        }
+        else {
+            throw new Exception();
+        }
+        //will never be reached..
+        return totalGrade;
+    }
 
     /**
      * Requests the user select a file to save data to, and returns it to the caller.
@@ -640,4 +859,5 @@ public class Controller {
     {
         this.hostServices = hostServices;
     }//end setHostServices(HostServices):void
+
 }//end Controller.class
